@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var db = require('./db');
 
 var app = express();
 
@@ -37,5 +38,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+// error handler DB
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 module.exports = app;
