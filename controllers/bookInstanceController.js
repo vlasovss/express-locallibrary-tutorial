@@ -1,11 +1,42 @@
+const mongoose = require('mongoose');
+
 const BookInstance = require('../models/bookinstance');
 
-exports.bookInstanceList = (req, res) => {
-  res.send('NOT IMPLEMENTED: BookInstance list');
+exports.bookInstanceList = (req, res, next) => {
+  BookInstance.find()
+    .populate('book')
+    .exec((err, bookInstanceList) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.render('bookInstanceList', {
+        title: 'Book Instance List',
+        bookInstanceList: bookInstanceList,
+      });
+    });
 };
 
-exports.bookInstanceDetail = (req, res) => {
-  res.send('NOT IMPLEMENTED: BookInstance detail ' + req.params.id);
+exports.bookInstanceDetail = (req, res, next) => {
+  const id = mongoose.Types.ObjectId(req.params.id);
+  BookInstance.findById(id)
+    .populate('book')
+    .exec((err, bookInstance) => {
+      if (err) {
+        return next(err);
+      }
+
+      if (bookInstance == null) {
+        const err = new Error('Book Copy Not Found');
+        err.status = 404;
+        return next(err);
+      }
+
+      res.render('bookInstanceDetail', {
+        title: `Copy: ${bookInstance.book.title}`,
+        bookInstance: bookInstance,
+      })
+    });
 };
 
 exports.bookInstanceCreateGet = (req, res) => {
