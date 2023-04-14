@@ -1,0 +1,23 @@
+extends ../layout
+
+block content 
+  h1 Genre: #{genre.name}
+
+  div(style='margin-left:20px;margin-top:20px')
+
+    h4 Books
+
+    dl 
+      each book in bookList
+        dt
+          a(href=book.url) #{book.title}
+          a(href=book.author.url) (#{book.author.name})
+        dd #{book.summary}
+        br
+
+      else 
+        li There genre has not books.
+
+  p
+    a(href=genre.url+'/delete').btn.btn-danger(role='button' style='margin-right:10px;') Delete
+    a(href=genre.url+'/update').btn.btn-primary(role='button') Update

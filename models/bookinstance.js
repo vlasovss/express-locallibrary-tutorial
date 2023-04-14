@@ -35,7 +35,7 @@ BookInstanceSchema.virtual('url').get(function() {
 });
 
 BookInstanceSchema.virtual('dueBackFormatted').get(function() {
-  return moment(this.due_back).format('MMMM Do, YYYY');
+  return moment(this.due_back).format('YYYY-MM-DD');
 });
 
 module.exports = mongoose.model('BookInstance', BookInstanceSchema);

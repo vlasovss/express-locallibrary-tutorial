@@ -30,6 +30,14 @@ AuthorSchema.virtual('url').get(function() {
   return `/catalog/author/${this._id}`
 });
 
+AuthorSchema.virtual('dateOfBirthF').get(function() {
+  return moment(this.dateOfBirth).format('YYYY-MM-DD');
+});
+
+AuthorSchema.virtual('dateOfDeathF').get(function() {
+  return moment(this.dateOfDeath).format('YYYY-MM-DD');
+});
+
 AuthorSchema.virtual('yearsOfLife').get(function() {
   const dateOfBirthFormated = this.dateOfBirth ? 
     `${moment(this.dateOfBirth).format('DD MMMM YYYY')}` : null;
